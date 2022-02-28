@@ -1,6 +1,6 @@
 # Azure Storage Account- .NET
 
-This simple application provides basic overwiew of uploading and downloading files in Azure portal.
+This console application provides basic overwiew of uploading and downloading files in Azure portal.
 
 
 
