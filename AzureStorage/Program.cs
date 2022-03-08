@@ -1,6 +1,8 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +26,8 @@ namespace AzureStorage
             }
             Upload(files, config["AzureStorage:ConnectionString"], config["AzureStorage:Container"]);
             Download(config["AzureStorage:ConnectionString"], config["AzureStorage:Container"], config["AzureStorage:DownloadFolder"]);
-           
+            Saas(config["AzureStorage:ConnectionString"], config["AzureStorage:Container"]);
+
 
 
 
@@ -88,6 +91,27 @@ namespace AzureStorage
             Console.WriteLine("Download Compleled!");
 
 
+        }
+        static void Saas(
+             string ConnectionString,
+            string Container)
+        {
+            Console.WriteLine(ConnectionString);
+            Console.WriteLine(Container);
+            BlobServiceClient blobServiceClient = new BlobServiceClient(ConnectionString);
+
+
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(Container);
+            SharedAccessBlobPolicy sharedPolicy = new SharedAccessBlobPolicy()
+            {
+                Permissions = SharedAccessBlobPermissions.Read,
+                SharedAccessStartTime = DateTimeOffset.UtcNow,
+                SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(7),
+
+
+
+            };
+           
         }
 
     }
